@@ -32,14 +32,14 @@ jobs:
       - name: Notify if data has changed
         uses: dawidd6/action-send-mail@v3
         if: steps.cache.outputs.cache-hit != 'true'
-          with:
-            server_address: smtp.gmail.com
-            server_port: 465
-            username: ${{secrets.MAIL_USERNAME}}
-            password: ${{secrets.MAIL_PASSWORD}}
-            subject: There's been a change on the website
-            to: ${{secrets.MAIL_ADDRESS}}
-            from: Automated Email
-            ignore_cert: true
-            secure: true
-            body: https://enjoyburlington.com/become-a-bacg-gardener/ has changed!
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: There's been a change on the website
+          to: ${{secrets.MAIL_ADDRESS}}
+          from: Automated Email
+          ignore_cert: true
+          secure: true
+          body: https://enjoyburlington.com/become-a-bacg-gardener/ has changed!
