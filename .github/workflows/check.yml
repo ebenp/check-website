@@ -1,0 +1,45 @@
+
+# from https://ben.balter.com/2021/12/15/github-actions-website-api-change-notification/
+on:
+  schedule:
+    # Run every day at 4 UTC
+    - cron:  '0 4 * * *'
+  # manually trigger the action  
+  workflow_dispatch:
+
+name: Check for changes
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Use cURL to fetch the given URL, saving the response to `data.json`
+      - name: Fetch data
+        run: curl "https://enjoyburlington.com/become-a-bacg-gardener/" -o data.json
+          
+      # Compare the response to the previous run, using a hash of the response as the cache key
+      - name: Fetch Cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: data.json
+          key: ${{ hashFiles('data.json') }}
+      
+      # If there was not a cache hit (meaning the response changed), notify me via text message
+      # See https://github.com/twilio-labs/actions-sms for setup instructions
+      # You could use a different notification action here, so long as you include the `if` condition below
+      - name: Notify if data has changed
+        uses: dawidd6/action-send-mail@v3
+        if: steps.cache.outputs.cache-hit != 'true'
+          with:
+            server_address: smtp.gmail.com
+            server_port: 465
+            username: ${{secrets.MAIL_USERNAME}}
+            password: ${{secrets.MAIL_PASSWORD}}
+            subject: There's been a change on the website
+            to: ${{secrets.MAIL_ADDRESS}}
+            from: Automated Email
+            ignore_cert: true
+            secure: true
+            body: https://enjoyburlington.com/become-a-bacg-gardener/ has changed!
