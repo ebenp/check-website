@@ -4,8 +4,9 @@
 # and also https://yasoob.me/posts/github-actions-web-scraper-schedule-tutorial/
 on:
   schedule:
-    # Run every day at 4 UTC
-    - cron:  '0 4 * * *'
+  # Run every day at 4 UTC
+  # currently disabled
+  #  - cron:  '0 4 * * *'
   # manually trigger the action  
   workflow_dispatch:
 
@@ -21,6 +22,7 @@ jobs:
         run: curl "https://enjoyburlington.com/become-a-bacg-gardener/" -o data.json
           
       # Compare the response to the previous run, using a hash of the response as the cache key
+      # seems buggy at the moment
       - name: Fetch Cache
         id: cache
         uses: actions/cache@v2
@@ -28,8 +30,7 @@ jobs:
           path: data.json
           key: ${{ hashFiles('data.json') }}
       
-      # If there was not a cache hit (meaning the response changed), notify me via text message
-      # See https://github.com/twilio-labs/actions-sms for setup instructions
+      # If there was not a cache hit (meaning the response changed), notify me via email
       # You could use a different notification action here, so long as you include the `if` condition below
       - name: Notify if data has changed
         uses: dawidd6/action-send-mail@v3
