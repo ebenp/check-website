@@ -3,11 +3,9 @@
 # modified from https://ben.balter.com/2021/12/15/github-actions-website-api-change-notification/
 # and also https://yasoob.me/posts/github-actions-web-scraper-schedule-tutorial/
 on:
-  # currently disabled
-  # schedule:
+  schedule:
   # Run every day at 4 UTC
-  # currently disabled
-  #  - cron:  '0 4 * * *'
+    - cron:  '0 4 * * *'
   # manually trigger the action  
   workflow_dispatch:
 
