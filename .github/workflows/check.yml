@@ -3,7 +3,8 @@
 # modified from https://ben.balter.com/2021/12/15/github-actions-website-api-change-notification/
 # and also https://yasoob.me/posts/github-actions-web-scraper-schedule-tutorial/
 on:
-  schedule:
+  # currently disabled
+  # schedule:
   # Run every day at 4 UTC
   # currently disabled
   #  - cron:  '0 4 * * *'
@@ -20,7 +21,7 @@ jobs:
       # Use cURL to fetch the given URL, saving the response to `data.json`
       - name: Fetch data
         run: curl "https://enjoyburlington.com/become-a-bacg-gardener/" -o data.json
-          
+        echo "${{ hashFiles('data.json') }}"
       # Compare the response to the previous run, using a hash of the response as the cache key
       # seems buggy at the moment
       - name: Fetch Cache
@@ -32,17 +33,17 @@ jobs:
       
       # If there was not a cache hit (meaning the response changed), notify me via email
       # You could use a different notification action here, so long as you include the `if` condition below
-      - name: Notify if data has changed
-        uses: dawidd6/action-send-mail@v3
-        if: steps.cache.outputs.cache-hit != 'true'
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{secrets.MAIL_USERNAME}}
-          password: ${{secrets.MAIL_PASSWORD}}
-          subject: There's been a change on the website
-          to: ${{secrets.MAIL_ADDRESS}}
-          from: Automated Email
-          ignore_cert: true
-          secure: true
-          body: https://enjoyburlington.com/become-a-bacg-gardener/ has changed!
+     # - name: Notify if data has changed
+     #   uses: dawidd6/action-send-mail@v3
+     #   if: steps.cache.outputs.cache-hit != 'true'
+     #   with:
+     #     server_address: smtp.gmail.com
+     #     server_port: 465
+     #     username: ${{secrets.MAIL_USERNAME}}
+     #     password: ${{secrets.MAIL_PASSWORD}}
+     #     subject: There's been a change on the website
+     #     to: ${{secrets.MAIL_ADDRESS}}
+     #     from: Automated Email
+     #     ignore_cert: true
+     #     secure: true
+     #     body: https://enjoyburlington.com/become-a-bacg-gardener/ has changed!
