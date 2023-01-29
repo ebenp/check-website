@@ -35,7 +35,7 @@ jobs:
         id: artifact
         uses: actions/upload-artifact@v3
         with:
-          name: $(date +'%Y-%m-%d').json
+          name: my-artifact
           path: data.json
           retention-days: 5
       
