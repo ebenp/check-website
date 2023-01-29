@@ -31,6 +31,14 @@ jobs:
           path: data.json
           key: ${{ hashFiles('data.json') }}
       
+      - name: 'Upload Artifact'
+        id: artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: data.json
+          path: ${{ hashFiles('data.json') }}.json
+          retention-days: 5
+      
       # If there was not a cache hit (meaning the response changed), notify me via email
       # You could use a different notification action here, so long as you include the `if` condition below
       - name: Notify if data has changed
