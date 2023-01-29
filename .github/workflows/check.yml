@@ -35,8 +35,8 @@ jobs:
         id: artifact
         uses: actions/upload-artifact@v3
         with:
-          name: data.json
-          path: ${{ hashFiles('data.json') }}.json
+          name: $(date +'%Y-%m-%d').json
+          path: data.json
           retention-days: 5
       
       # If there was not a cache hit (meaning the response changed), notify me via email
