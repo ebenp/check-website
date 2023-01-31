@@ -17,8 +17,11 @@ jobs:
     steps:
 
       # Use cURL to fetch the given URL, saving the response to `data.json`
+      # - name: Fetch data
+      #  run: curl "https://enjoyburlington.com/become-a-bacg-gardener/" -o data.json
+      # Use w3m to fetch the given URL, saving the response to `data.txt`
       - name: Fetch data
-        run: curl "https://enjoyburlington.com/become-a-bacg-gardener/" -o data.json
+        run: w3m -dump "https://enjoyburlington.com/become-a-bacg-gardener/" > data.txt
         # QA step
       - name: Calculate hash
         run: echo "${{ hashFiles('./data.json') }}"
