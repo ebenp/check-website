@@ -5,7 +5,7 @@
 on:
   schedule:
   # Run every day at 4 UTC
-    - cron:  '0 4 * * *'
+  #  - cron:  '0 4 * * *'
   # manually trigger the action  
   workflow_dispatch:
 
